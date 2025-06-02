@@ -1,3 +1,4 @@
+# Copyright (c) 2024-2025 VLN-CE Project Developers
 # Copyright (c) 2024 ETH Zurich (Robotic Systems Lab)
 # Author: Pascal Roth
 # All rights reserved.

@@ -22,8 +22,8 @@ import numpy as np
 
 from rsl_rl.env import VecEnv
 
-from omni.isaac.lab.envs import DirectRLEnv, ManagerBasedRLEnv
-from omni.isaac.lab_tasks.utils.wrappers.rsl_rl import RslRlVecEnvWrapper
+from isaaclab.envs import DirectRLEnv, ManagerBasedRLEnv
+from isaaclab_rl.rsl_rl import RslRlVecEnvWrapper
 
 from .measures import add_measurement
 

@@ -1,3 +1,4 @@
+# Copyright (c) 2024-2025 VLN-CE Project Developers
 # Copyright (c) 2024 ETH Zurich (Robotic Systems Lab)
 # Author: Pascal Roth
 # All rights reserved.
@@ -6,10 +7,10 @@
 
 from dataclasses import MISSING
 
-from omni.isaac.core.utils import extensions
+from isaacsim.core.utils import extensions
 from omni.isaac.matterport.domains import MatterportImporter
-from omni.isaac.lab.terrains import TerrainImporterCfg
-from omni.isaac.lab.utils import configclass
+from isaaclab.terrains import TerrainImporterCfg
+from isaaclab.utils import configclass
 from typing_extensions import Literal
 
 extensions.enable_extension("omni.kit.asset_converter")

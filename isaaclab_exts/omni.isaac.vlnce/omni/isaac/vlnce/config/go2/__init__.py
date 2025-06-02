@@ -9,7 +9,7 @@ from .go2_matterport_vision_cfg import Go2MatterportVisionCfg, Go2VisionRoughPPO
 
 gym.register(
     id="go2_matterport_base",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": Go2MatterportBaseCfg,
@@ -19,7 +19,7 @@ gym.register(
 
 gym.register(
     id="go2_matterport_vision",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": Go2MatterportVisionCfg,

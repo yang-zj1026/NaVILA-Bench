@@ -15,12 +15,12 @@ from __future__ import annotations
 import math
 from typing import TYPE_CHECKING, Sequence
 
-import omni.isaac.lab.utils.math as math_utils
+import isaaclab.utils.math as math_utils
 import torch
-from omni.isaac.lab.assets.articulation import Articulation
-from omni.isaac.lab.envs import ManagerBasedRLEnv
-from omni.isaac.lab.managers import CommandTerm
-from omni.isaac.lab.sim import SimulationContext
+from isaaclab.assets.articulation import Articulation
+from isaaclab.envs import ManagerBasedRLEnv
+from isaaclab.managers import CommandTerm
+from isaaclab.sim import SimulationContext
 
 if TYPE_CHECKING:
     from .midlevel_command_generator_cfg import MidLevelCommandGeneratorCfg

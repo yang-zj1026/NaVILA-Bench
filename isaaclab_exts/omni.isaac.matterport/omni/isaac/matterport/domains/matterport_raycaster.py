@@ -1,3 +1,4 @@
+# Copyright (c) 2024-2025 VLN-CE Project Developers
 # Copyright (c) 2024 ETH Zurich (Robotic Systems Lab)
 # Author: Pascal Roth
 # All rights reserved.
@@ -13,7 +14,7 @@ import numpy as np
 import trimesh
 import warp as wp
 from omni.isaac.matterport.domains import DATA_DIR
-from omni.isaac.lab.sensors.ray_caster import RayCaster
+from isaaclab.sensors.ray_caster import RayCaster
 
 if TYPE_CHECKING:
     from .raycaster_cfg import MatterportRayCasterCfg

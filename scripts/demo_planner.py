@@ -7,7 +7,7 @@ import gzip, json
 import numpy as np
 
 # omni-isaaclab
-from omni.isaac.lab.app import AppLauncher
+from isaaclab.app import AppLauncher
 
 import cli_args
 
@@ -35,19 +35,19 @@ app_launcher = AppLauncher(args_cli)
 # import ipdb; ipdb.set_trace()
 simulation_app = app_launcher.app
 
-import omni.isaac.core.utils.prims as prim_utils
+import isaacsim.core.utils.prims as prim_utils
 import torch
-from omni.isaac.core.objects import VisualCuboid
+from isaacsim.core.api.objects.cuboid import VisualCuboid
 
 import gymnasium as gym
-from omni.isaac.lab.sensors.camera.utils import create_pointcloud_from_depth
-from omni.isaac.lab.markers.config import CUBOID_MARKER_CFG
-from omni.isaac.lab.markers import VisualizationMarkers
-import omni.isaac.lab.utils.math as math_utils
+from isaaclab.sensors.camera.utils import create_pointcloud_from_depth
+from isaaclab.markers.config import CUBOID_MARKER_CFG
+from isaaclab.markers import VisualizationMarkers
+import isaaclab.utils.math as math_utils
 
 from rsl_rl.runners import OnPolicyRunner
-from omni.isaac.lab_tasks.utils import get_checkpoint_path, parse_env_cfg
-from omni.isaac.lab_tasks.utils.wrappers.rsl_rl import (
+from isaaclab_tasks.utils import get_checkpoint_path, parse_env_cfg
+from isaaclab_rl.rsl_rl import (
     RslRlOnPolicyRunnerCfg,
     RslRlVecEnvWrapper,
 )

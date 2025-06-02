@@ -9,7 +9,7 @@ from .h1_matterport_vision_cfg import H1MatterportVisionCfg, H1VisionRoughPPORun
 
 gym.register(
     id="h1_matterport_base",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": H1MatterportBaseCfg,
@@ -19,7 +19,7 @@ gym.register(
 
 gym.register(
     id="h1_matterport_vision",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": H1MatterportVisionCfg,

@@ -1,8 +1,8 @@
 import math
 from dataclasses import MISSING
 
-from omni.isaac.lab.managers import CommandTermCfg
-from omni.isaac.lab.utils.configclass import configclass
+from isaaclab.managers import CommandTermCfg
+from isaaclab.utils.configclass import configclass
 from typing_extensions import Literal
 
 from .goal_command_generator import GoalCommandGenerator

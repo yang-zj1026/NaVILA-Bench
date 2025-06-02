@@ -1,3 +1,4 @@
+# Copyright (c) 2024-2025 VLN-CE Project Developers
 # Copyright (c) 2024 ETH Zurich (Robotic Systems Lab)
 # Author: Pascal Roth
 # All rights reserved.
@@ -11,14 +12,14 @@ from typing import ClassVar, Sequence
 
 import carb
 import numpy as np
-import omni.isaac.lab.utils.math as math_utils
+import isaaclab.utils.math as math_utils
 import pandas as pd
 import torch
 import trimesh
 import warp as wp
 from omni.isaac.matterport.domains import DATA_DIR
-from omni.isaac.lab.sensors import RayCasterCamera, RayCasterCameraCfg
-from omni.isaac.lab.utils.warp import raycast_mesh
+from isaaclab.sensors import RayCasterCamera, RayCasterCameraCfg
+from isaaclab.utils.warp import raycast_mesh
 from tensordict import TensorDict
 
 

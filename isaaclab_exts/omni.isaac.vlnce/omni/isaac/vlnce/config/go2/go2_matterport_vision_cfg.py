@@ -1,12 +1,12 @@
 import os
 
-from omni.isaac.lab.managers import ObservationGroupCfg as ObsGroup
-from omni.isaac.lab.managers import ObservationTermCfg as ObsTerm
-from omni.isaac.lab.managers import SceneEntityCfg
-from omni.isaac.lab.utils import configclass
-from omni.isaac.lab.utils.noise import AdditiveUniformNoiseCfg as Unoise
-from omni.isaac.lab.sensors import CameraCfg, ContactSensorCfg, RayCasterCfg, patterns
-from omni.isaac.lab.sensors.ray_caster import RayCasterCameraCfg, patterns
+from isaaclab.managers import ObservationGroupCfg as ObsGroup
+from isaaclab.managers import ObservationTermCfg as ObsTerm
+from isaaclab.managers import SceneEntityCfg
+from isaaclab.utils import configclass
+from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
+from isaaclab.sensors import CameraCfg, ContactSensorCfg, RayCasterCfg, patterns
+from isaaclab.sensors.ray_caster import RayCasterCameraCfg, patterns
 
 import omni.isaac.vlnce.vlnce.mdp as mdp
 
@@ -143,17 +143,18 @@ class ObservationsCfg:
 # Scene configuration
 ##
 class Go2VisionSceneCfg(TerrainSceneCfg):
-    lidar_sensor = RayCasterCfg(
-        prim_path="{ENV_REGEX_NS}/Robot/Head_lower",
-        # offset=RayCasterCfg.OffsetCfg(pos=(0.28945, 0.0, -0.046), rot=(0., -0.991,0.0,-0.131)),
-        offset=RayCasterCfg.OffsetCfg(pos=(0.0, 0.0, -0.0), rot=(0., -0.991,0.0,-0.131)),
-        attach_yaw_only=False,
-        pattern_cfg=patterns.LidarPatternCfg(
-            channels=32, vertical_fov_range=(0.0, 90.0), horizontal_fov_range=(-180, 180.0), horizontal_res=4.0
-        ),
-        debug_vis=False, # set to True to visualize the lidar rays
-        mesh_prim_paths=["/World/matterport"],
-    )
+    # lidar_sensor = RayCasterCfg(
+    #     prim_path="{ENV_REGEX_NS}/Robot/Head_lower",
+    #     # offset=RayCasterCfg.OffsetCfg(pos=(0.28945, 0.0, -0.046), rot=(0., -0.991,0.0,-0.131)),
+    #     offset=RayCasterCfg.OffsetCfg(pos=(0.0, 0.0, -0.0), rot=(0., -0.991,0.0,-0.131)),
+    #     attach_yaw_only=False,
+    #     pattern_cfg=patterns.LidarPatternCfg(
+    #         channels=32, vertical_fov_range=(0.0, 90.0), horizontal_fov_range=(-180, 180.0), horizontal_res=4.0
+    #     ),
+    #     debug_vis=False, # set to True to visualize the lidar rays
+    #     mesh_prim_paths=["/World/matterport"],
+    # )
+    lidar_sensor = None
 
 ##
 # Environment configuration
@@ -171,5 +172,5 @@ class Go2MatterportVisionCfg(Go2MatterportBaseCfg):
         """Post initialization."""
         super().__post_init__()
         # general settings
-        self.scene.lidar_sensor.update_period = 4*self.sim.dt
+        # self.scene.lidar_sensor.update_period = 4*self.sim.dt
         self.scene.height_scanner.pattern_cfg.size = [3.0, 2.0]
