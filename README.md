@@ -8,7 +8,7 @@ The VLN-CE-Isaac Benchmark is a framework for evaluating Visual Language Navigat
 </p>
 
 ## TODO List
-- [ ] Release the VLA example and evaluation code
+- [x] Release the VLA example and evaluation code
 
 
 ## Installation
@@ -70,6 +70,41 @@ python scripts/demo_planner.py --task=go2_matterport_vision --history_length=9 -
 python scripts/demo_planner.py --task=h1_matterport_vision --load_run=2024-11-03_15-08-09_height_scan_obst
 ```
 To train your own low-level policies, please refer to the [legged-loco](https://github.com/yang-zj1026/legged-loco) repo.
+
+### VLA Evaluation
+
+**Note**: To run the VLA evaluation, a GPU with at least 24GB VRAM is required. Or you can run VLM server on a machine with enough VRAM and connect to it from the machine running the evaluation.
+
+First clone NaVILA and install the dependencies.
+```shell
+git clone https://github.com/AnjieCheng/NaVILA.git
+cd NaVILA
+
+pip install flash-attn==2.5.8
+# Install VILA (assum in root dir)
+pip install -e .
+pip install -e ".[train]"
+pip install -e ".[eval]"
+# Install HF's Transformers
+pip install git+https://github.com/huggingface/transformers@v4.37.2
+site_pkg_path=$(python -c 'import site; print(site.getsitepackages()[0])')
+cp -rv ./llava/train/transformers_replace/* $site_pkg_path/transformers/
+cp -rv ./llava/train/deepspeed_replace/* $site_pkg_path/deepspeed/
+```
+
+Then download the pre-trained checkpoint from [a8cheng/navila-llama3-8b-8f](https://huggingface.co/a8cheng/navila-llama3-8b-8f).
+
+Next, we need to open two terminals and run the following commands in each terminal.
+
+
+```shell
+# Terminal 1: VLM Server
+python vlm_server.py --model_path MODEL_PATH --port=54321
+
+# Terminal 2: NaVILA IsaacLab Benchmark Evaluation
+python scripts/navila_eval.py --task=go2_matterport_vision --load_run=go2_matterport_vision --history_length=9 --load_run=2024-09-25_23-22-02 --headless --enable_cameras --episode_idx=3
+```
+The evaluation results will be saved in `eval_results` directory.
 
 ## Citation
 If you use VLN-CE-Isaac in your work please consider citing our paper:
