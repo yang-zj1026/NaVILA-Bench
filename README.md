@@ -2,18 +2,17 @@
   <img src="src/logo.png" width="20%"/>
 </p>
 
-
-<p align="center" style="margin-bottom: 32px;">
-  <a href="https://navila-bot.github.io/" style="margin: 0 6px;">
+<p align="center">
+  <a href="https://navila-bot.github.io/">
     <img src="https://img.shields.io/badge/website-6DE1D2?style=for-the-badge&logo=safari&labelColor=555555" alt="website"/>
   </a>
-  <a href="https://arxiv.org/abs/2412.04453" style="margin: 0 6px;">
+  <a href="https://arxiv.org/abs/2412.04453">
     <img src="https://img.shields.io/badge/Arxiv-F75A5A?style=for-the-badge&logo=arxiv&labelColor=555555" alt="Arxiv"/>
   </a>
-  <a href="https://huggingface.co/collections/a8cheng/navila-legged-robot-vision-language-action-model-for-naviga-67cfc82b83017babdcefd4ad" style="margin: 0 6px;">
+  <a href="https://huggingface.co/collections/a8cheng/navila-legged-robot-vision-language-action-model-for-naviga-67cfc82b83017babdcefd4ad">
     <img src="https://img.shields.io/badge/Huggingface-FFD63A?style=for-the-badge&logo=huggingface&labelColor=555555" alt="Huggingface"/>
   </a>
-  <a href="https://github.com/yang-zj1026/legged-loco" style="margin: 0 6px;">
+  <a href="https://github.com/yang-zj1026/legged-loco">
     <img src="https://img.shields.io/badge/Locomotion%20Code%20-FFA955?style=for-the-badge&logo=github&labelColor=555555" alt="Locomotion Code"/>
   </a>
 </p>
