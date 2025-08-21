@@ -37,6 +37,8 @@ parser.add_argument("--task", type=str, default=None, help="Name of the task.")
 parser.add_argument("--seed", type=int, default=None, help="Seed used for the environment")
 
 parser.add_argument("--history_length", default=0, type=int, help="Length of history buffer.")
+parser.add_argument("--use_cnn", action="store_true", default=None, help="Name of the run folder to resume from.")
+parser.add_argument("--use_rnn", action="store_true", default=False, help="Use RNN in the actor-critic model.")
 parser.add_argument("--visualize_path", action="store_true", default=False, help="Visualize the path in the simulator.")
 
 # navila argparse arguments
@@ -74,7 +76,7 @@ from omni.isaac.lab_tasks.utils.wrappers.rsl_rl import (
 import omni.isaac.lab.sim as sim_utils
 
 from omni.isaac.vlnce.config import *
-from omni.isaac.vlnce.utils import ASSETS_DIR, RslRlVecEnvHistoryWrapper
+from omni.isaac.vlnce.utils import ASSETS_DIR, RslRlVecEnvHistoryWrapper, VLNEnvWrapper
 from omni.isaac.vlnce.utils.eval_utils import (
     get_vel_command, 
     read_episodes, 
@@ -273,15 +275,15 @@ def main():
     else:
         env = RslRlVecEnvWrapper(env)
 
-    # add measurement
-    add_measurement(env, episode)
-    env.measure_manager.reset_measures()
-
     # load previously trained model
     ppo_runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=None, device=agent_cfg.device)
     ppo_runner.load(resume_path)
     print(f"[INFO]: Loading model checkpoint from: {resume_path}")
     policy = ppo_runner.get_inference_policy(device=env.unwrapped.device)
+
+    all_measures = ["PathLength", "DistanceToGoal", "Success", "SPL", "OracleNavigationError", "OracleSuccess"]
+    env = VLNEnvWrapper(env, policy, args_cli.task, episode, high_level_obs_key="camera_obs",
+                        measure_names=all_measures)
     
     # set view pos and target
     robot_pos_w = env.unwrapped.scene["robot"].data.root_pos_w[0].detach().cpu().numpy()
@@ -293,11 +295,7 @@ def main():
     env.unwrapped.sim.set_camera_view(eye=cam_eye, target=cam_target)
     
     # step with zeros actions to get the initial frame
-    obs, infos = env.get_observations()
-    for _ in range(100):
-        obs[:,9:12] = torch.tensor([0., 0., 0.], device = obs.device)
-        actions = policy(obs)
-        obs, _, _, infos = env.step(actions)
+    obs, infos = env.reset()
 
     # NaViLA training gets image observations each 0.5s, visualize every 0.1s
     steps_per_image = 0.5 / (env.unwrapped.cfg.sim.dt * env.unwrapped.cfg.decimation)
@@ -327,7 +325,6 @@ def main():
         # run everything in inference mode
         with torch.inference_mode():
             if num_steps == target_steps:
-                # import pdb; pdb.set_trace()
                 stream_output = sample_images_and_send_to_vlm(image_observations, args_cli.vlm_host, args_cli.vlm_port, instruction.instruction_text)
                 vlm_vel_commands, time_to_go = get_vel_command(stream_output)
                 env_steps_to_go = int(time_to_go / (
@@ -336,22 +333,10 @@ def main():
                 target_steps = num_steps + env_steps_to_go
                 print(f"VLM output: {stream_output}\nVel Command: {vlm_vel_commands}, Env Steps to go: {env_steps_to_go}\n")
 
-                # set env vel command
-                # import pdb; pdb.set_trace()
-                env.unwrapped.command_manager._terms['base_velocity'].vel_command_b[0,:] = torch.tensor(vlm_vel_commands, device = obs.device)
-                obs[:,9:12] = torch.tensor([vlm_vel_commands[0], vlm_vel_commands[1], vlm_vel_commands[2]], device = obs.device)
+        obs, _, done, infos = env.step(torch.tensor(vlm_vel_commands, device = obs.device))
 
-        # import pdb; pdb.set_trace()
-        # assert torch.allclose(env.unwrapped.command_manager._terms['base_velocity'].vel_command_b, torch.tensor([0., 0., 0.], device = obs.device))
-        # env.command_manager._terms['base_velocity'].vel_command_b[0,:] = commands
-        # obs[:,9:12] = commands_key
-        # obs[:,9:12] = torch.tensor([vlm_vel_commands[0], vlm_vel_commands[1], vlm_vel_commands[2]], device = obs.device)
-        # agent stepping
-        actions = policy(obs)
-
-        # env stepping
-        obs, _, done, infos = env.step(actions)
-        # import pdb; pdb.set_trace()
+        if done or env.is_stop_called or num_steps > max_episode_steps:
+            break
 
         cur_pos = env.unwrapped.scene["robot"].data.root_pos_w[0].detach().cpu().numpy()
         robot_vel = np.linalg.norm(env.unwrapped.scene["robot"].data.root_vel_w[0].detach().cpu().numpy())
@@ -368,30 +353,22 @@ def main():
 
         if num_steps % steps_per_image == 0:
             curr_frame = infos["observations"]["camera_obs"][0, :, :, :3].cpu().numpy()
-            # curr_frame = cv2.rotate(curr_frame, cv2.ROTATE_90_CLOCKWISE)
             image_observations.append(Image.fromarray(curr_frame))
             curr_frame_copy = curr_frame.copy()
             add_instruction_on_img(curr_frame_copy, instruction.instruction_text)
             
         if num_steps % steps_per_viz_image == 0:
             curr_vis_frame = infos["observations"]["viz_camera_obs"][0, :, :, :3].cpu().numpy()
-            # curr_vis_frame = cv2.rotate(curr_vis_frame, cv2.ROTATE_90_CLOCKWISE)
             add_instruction_on_img(curr_vis_frame, stream_output)
             rgb_obses.append(np.concatenate([curr_frame_copy, curr_vis_frame], axis=1))
 
         num_steps += 1
         if env_steps_to_go == 0:
-            env.is_stop_called = True
-
-        env.measure_manager.update_measures()
-
-        if done[0] or env.is_stop_called or num_steps > max_episode_steps:
-            break
+            env.set_stop_called(True)
 
         # if args_cli.visualize_path:
         #     visualizer.visualize(reference_path_isaac)
-    
-    measurements = env.measure_manager.get_measurements()
+    measurements = infos["measurements"]
 
     result_dir = f"eval_results/{args_cli.task}_loco_{args_cli.load_run}"
     if not os.path.exists(result_dir):

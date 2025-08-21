@@ -242,7 +242,7 @@ class VLNEnvWrapper:
 
         # Check if the robot has stayed in the same location for 1000 steps or env has reached max length
         same_pos = self.check_same_pos()
-        done = done[0] or same_pos or self.env_step >= self.max_length
+        done = done[0] or same_pos or self.env_step >= self.max_length or self.is_stop_called
 
         return obs, reward, done, info
     
@@ -265,6 +265,7 @@ class VLNEnvWrapper:
     def set_stop_called(self, is_stop_called: bool) -> None:
         """Set the stop called flag."""
         self.env.is_stop_called = is_stop_called
+        self.is_stop_called = is_stop_called
     
     def close(self) -> None:
         self.env.close()
