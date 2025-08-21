@@ -2,16 +2,28 @@
   <img src="src/logo.png" width="20%"/>
 </p>
 
+
+<p align="center" style="margin-bottom: 32px;">
+  <a href="https://navila-bot.github.io/" style="margin: 0 6px;">
+    <img src="https://img.shields.io/badge/website-6DE1D2?style=for-the-badge&logo=safari&labelColor=555555" alt="website"/>
+  </a>
+  <a href="https://arxiv.org/abs/2412.04453" style="margin: 0 6px;">
+    <img src="https://img.shields.io/badge/Arxiv-F75A5A?style=for-the-badge&logo=arxiv&labelColor=555555" alt="Arxiv"/>
+  </a>
+  <a href="https://huggingface.co/collections/a8cheng/navila-legged-robot-vision-language-action-model-for-naviga-67cfc82b83017babdcefd4ad" style="margin: 0 6px;">
+    <img src="https://img.shields.io/badge/Huggingface-FFD63A?style=for-the-badge&logo=huggingface&labelColor=555555" alt="Huggingface"/>
+  </a>
+  <a href="https://github.com/yang-zj1026/legged-loco" style="margin: 0 6px;">
+    <img src="https://img.shields.io/badge/Locomotion%20Code%20-FFA955?style=for-the-badge&logo=github&labelColor=555555" alt="Locomotion Code"/>
+  </a>
+</p>
+
+
 # NaVILA Benchmark
 
 [![Python](https://img.shields.io/badge/python-3.10-blue.svg)](https://docs.python.org/3/whatsnew/3.10.html)
-[![IsaacSim](https://img.shields.io/badge/IsaacSim-4.5.0-silver.svg)](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html)
-[![IsaacLab](https://img.shields.io/badge/IsaacLab-2.0.2-silver.svg)](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html)
-
-[![website](https://img.shields.io/badge/website-6DE1D2?style=for-the-badge&logo=safari&labelColor=555555)](https://navila-bot.github.io/)
-[![Arxiv](https://img.shields.io/badge/Arxiv-F75A5A?style=for-the-badge&logo=arxiv&labelColor=555555)](https://arxiv.org/abs/2412.04453)
-[![Huggingface](https://img.shields.io/badge/Huggingface-FFD63A?style=for-the-badge&logo=huggingface&labelColor=555555)](https://huggingface.co/collections/a8cheng/navila-legged-robot-vision-language-action-model-for-naviga-67cfc82b83017babdcefd4ad)
-[![Locomotion Code](https://img.shields.io/badge/Locomotion%20Code%20-FFA955?style=for-the-badge&logo=github&labelColor=555555)](https://github.com/yang-zj1026/legged-loco)
+[![IsaacSim](https://img.shields.io/badge/IsaacSim-4.1.0-silver.svg)](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html)
+[![IsaacLab](https://img.shields.io/badge/IsaacLab-1.1.0-silver.svg)](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html)
 
 ## Overview
 This Benchmark is a framework for evaluating Visual Language Navigation in Isaac Lab. This repository contains the code and instructions to set up the environment, download the required data, and run the benchmark.
