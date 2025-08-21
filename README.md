@@ -1,7 +1,16 @@
-# VLN-CE-Isaac Benchmark
+# NaVILA Benchmark
+
+[![Python](https://img.shields.io/badge/python-3.10-blue.svg)](https://docs.python.org/3/whatsnew/3.10.html)
+[![IsaacSim](https://img.shields.io/badge/IsaacSim-4.5.0-silver.svg)](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html)
+[![IsaacLab](https://img.shields.io/badge/IsaacLab-2.0.2-silver.svg)](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html)
+
+[![website](https://img.shields.io/badge/website-6DE1D2?style=for-the-badge&logo=safari&labelColor=555555)](https://navila-bot.github.io/)
+[![Arxiv](https://img.shields.io/badge/Arxiv-F75A5A?style=for-the-badge&logo=arxiv&labelColor=555555)](https://arxiv.org/abs/2412.04453)
+[![Huggingface](https://img.shields.io/badge/Huggingface-FFD63A?style=for-the-badge&logo=huggingface&labelColor=555555)](https://huggingface.co/collections/a8cheng/navila-legged-robot-vision-language-action-model-for-naviga-67cfc82b83017babdcefd4ad)
+[![Locomotion Code](https://img.shields.io/badge/Locomotion%20Code%20-FFA955?style=for-the-badge&logo=github&labelColor=555555)](https://github.com/yang-zj1026/legged-loco)
 
 ## Overview
-The VLN-CE-Isaac Benchmark is a framework for evaluating Visual Language Navigation in Isaac Lab. This repository contains the code and instructions to set up the environment, download the required data, and run the benchmark.
+This Benchmark is a framework for evaluating Visual Language Navigation in Isaac Lab. This repository contains the code and instructions to set up the environment, download the required data, and run the benchmark.
 
 <p align="center">
   <img width="65%" src="./src/teaser.gif" alt="VLN-CE with Go2">
@@ -104,7 +113,29 @@ python vlm_server.py --model_path MODEL_PATH --port=54321
 # Terminal 2: NaVILA IsaacLab Benchmark Evaluation
 python scripts/navila_eval.py --task=go2_matterport_vision --load_run=go2_matterport_vision --history_length=9 --load_run=2024-09-25_23-22-02 --headless --enable_cameras --episode_idx=3
 ```
-The evaluation results will be saved in `eval_results` directory.
+The evaluation measurements and videos will be saved in `eval_results` directory.
+
+It's possible that you'll meet out-of-memory issue with IsaacLab's default configurations. If so, you could adjust the buffer size in `IsaacLab/source/extensions/omni.isaac.lab/omni/isaac/lab/sim/simulation_cfg.py`:
+```python
+gpu_total_aggregate_pairs_capacity: int = 2**18
+"""Capacity of total number of aggregate pairs allocated in GPU global memory. Default is 2 ** 21."""
+
+gpu_collision_stack_size: int = 2**16
+"""Size of the collision stack buffer allocated in pinned host memory. Default is 2 ** 26."""
+
+gpu_heap_capacity: int = 2**16
+"""Initial capacity of the GPU and pinned host memory heaps. Additional memory will be allocated
+  if more memory is required. Default is 2 ** 26."""
+
+gpu_temp_buffer_capacity: int = 2**16
+"""Capacity of temp buffer allocated in pinned host memory. Default is 2 ** 24."""
+
+gpu_max_soft_body_contacts: int = 2**16
+"""Size of soft body contacts stream buffer allocated in pinned host memory. Default is 2 ** 20."""
+
+gpu_max_particle_contacts: int = 2**16
+"""Size of particle contacts stream buffer allocated in pinned host memory. Default is 2 ** 20."""
+```
 
 ## Citation
 If you use VLN-CE-Isaac in your work please consider citing our paper:
