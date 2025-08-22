@@ -126,7 +126,9 @@ Next, we need to open two terminals and run the following commands in each termi
 python vlm_server.py --model_path MODEL_PATH --port=54321
 
 # Terminal 2: NaVILA IsaacLab Benchmark Evaluation
-python scripts/navila_eval.py --task=go2_matterport_vision --num_envs=1 --load_run=go2_matterport_vision --history_length=9 --load_run=2024-09-25_23-22-02 --headless --enable_cameras --episode_idx=0
+python scripts/navila_eval.py --task=go2_matterport_vision --num_envs=1 --history_length=9 --load_run=2024-09-25_23-22-02 --headless --enable_cameras --episode_idx=0
+
+python scripts/navila_eval.py --task=h1_matterport_vision --num_envs=1 --load_run=2024-11-03_15-08-09_height_scan_obst --headless --enable_cameras --episode_idx=0
 ```
 The evaluation measurements and videos will be saved in `eval_results` directory.
 
